@@ -13,7 +13,6 @@ type Props = {
 export default function Index({session}: Props) {
   const t = useTranslations('Index');
   const locale = useLocale();
-  console.log(session);
 
   function onLogoutClick() {
     signOut();
@@ -33,9 +32,13 @@ export default function Index({session}: Props) {
         </>
       ) : (
         <>
-          <button onClick={() => signIn('google')}>Google</button>
+          <button onClick={() => signIn('google')} type="button">
+            Google
+          </button>
 
-          <button onClick={() => signIn('facebook')}>Facebook</button>
+          <button onClick={() => signIn('facebook')} type="button">
+            Facebook
+          </button>
 
           <p>{t('loggedOut')}</p>
           <Link href={locale + '/login'}>{t('login')}</Link>

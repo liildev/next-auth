@@ -32,9 +32,6 @@ const auth: AuthOptions = {
       }
     })
   ],
-  pages: {
-    error: '/auth/login',
-  },
   callbacks: {
     async redirect({baseUrl, url}) {
       // Allows relative callback URLs
