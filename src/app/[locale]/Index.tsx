@@ -15,7 +15,7 @@ export default function Index({session}: Props) {
   const locale = useLocale();
 
   function onLogoutClick() {
-    signOut();
+    signOut({callbackUrl: '/'});
   }
 
   return (
@@ -32,7 +32,7 @@ export default function Index({session}: Props) {
         </>
       ) : (
         <>
-          <button onClick={() => signIn('google')} type="button">
+          <button onClick={() => signIn('google', {callbackUrl: '/secret', redirect: false})} type="button">
             Google
           </button>
 

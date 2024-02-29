@@ -1,12 +1,13 @@
-import {NextIntlClientProvider, useMessages} from 'next-intl';
-import {ReactNode} from 'react';
+import { NextIntlClientProvider, useMessages } from 'next-intl';
+import { ReactNode } from 'react';
+import { Session } from '../../provider/session';
 
 type Props = {
   children: ReactNode;
-  params: {locale: string};
+  params: { locale: string };
 };
 
-export default function LocaleLayout({children, params: {locale}}: Props) {
+export default function LocaleLayout({ children, params: { locale } }: Props) {
   const messages = useMessages();
 
   return (
@@ -15,9 +16,11 @@ export default function LocaleLayout({children, params: {locale}}: Props) {
         <title>next-intl & next-auth</title>
       </head>
       <body>
-        <NextIntlClientProvider locale={locale} messages={messages}>
-          {children}
-        </NextIntlClientProvider>
+        <Session>
+          <NextIntlClientProvider locale={locale} messages={messages}>
+            {children}
+          </NextIntlClientProvider>
+        </Session>
       </body>
     </html>
   );

@@ -5,7 +5,7 @@ import {locales} from './navigation';
 
 const publicPages = [
   '/',
-  '/login'
+  '/signin'
   // (/secret requires auth)
 ];
 
@@ -25,7 +25,7 @@ const authMiddleware = withAuth(
       authorized: ({token}) => token != null
     },
     pages: {
-      signIn: '/login'
+      signIn: '/signin'
     }
   }
 );
