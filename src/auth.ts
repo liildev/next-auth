@@ -1,4 +1,4 @@
-import { AuthOptions } from 'next-auth';
+import { Account, AuthOptions, User } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import FacebookProvider from 'next-auth/providers/facebook';
 import GoogleProvider from 'next-auth/providers/google';
@@ -39,22 +39,22 @@ const auth: AuthOptions = {
   },
   callbacks: {
     async signIn({ account, user }) {
-      try {
+      if (user) {
         if (account?.provider === "google") {
           const email = user.email as string;
           const name = user.name?.split(' ') || ''
-          const { data } = await axios.get(
+          const { data: checkUser } = await axios.get(
             `https://tour-back.uz/api/auth/check-user?email=${email}`);
 
-          if (data.content.data) {
+          if (checkUser.content.data) {
             const body = {
               login: email,
               authTypeId: '2'
             }
 
-            const { data } = await axios.post('https://tour-back.uz/api/auth/sign-in', body);
-            console.log(data, 'data');
-
+            const { data: signInResponse } = await axios.post('https://tour-back.uz/api/auth/sign-in', body);
+            console.log(signInResponse, 'data');
+            return true
           } else {
             const body = {
               login: email,
@@ -65,16 +65,14 @@ const auth: AuthOptions = {
             }
 
 
-            const res = await axios.post('https://tour-back.uz/api/auth/sign-up', body);
+            const { data: signUpResponse } = await axios.post('https://tour-back.uz/api/auth/sign-up', body);
 
-            console.log(res);
+            console.log(signUpResponse);
+            return true
           }
-
-          return true
         }
-        return true // Do different verification for other providers that don't have `email_verified`
-      } catch (error) {
       }
+      return false
     }
   }
 
